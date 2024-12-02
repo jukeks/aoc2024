@@ -53,19 +53,43 @@ def print_matrix(matrix: Matrix):
         print()
 
 
-def parse_matrix(text: str) -> Matrix:
-    return [[cell for cell in row] for row in text.strip().splitlines()]
+def parse_matrix(text: str, delimiter: str = " ") -> Matrix:
+    return [[cell for cell in row.split(delimiter)] for row in text.strip().splitlines()]
 
 
-def read_matrix(filename: str) -> Matrix:
+def read_matrix(filename: str, delimiter: str = " ") -> Matrix:
     with open(filename) as f:
-        return parse_matrix(f.read())
+        return parse_matrix(f.read(), delimiter)
+
+
+def filter_out_empty_cells(m: Matrix) -> Matrix:
+    new_m = list()
+    for row in m:
+        new_row = list()
+        for cell in row:
+            if cell.strip() != "":
+                new_row.append(cell)
+        new_m.append(new_row)
+    return new_m
+
+
+def to_int_matrix(m: Matrix) -> Matrix:
+    new_m = list()
+    for row in m:
+        new_row = [int(cell) for cell in row]
+        new_m.append(new_row)
+    return new_m
 
 
 def read_input(filename: str):
     with open(filename) as f:
         return f.read()
 
+def get_column(m: Matrix, i: int) -> list[any]:
+    col = list()
+    for r in m:
+        col.append(r[i])
+    return col
 
 from typing import TypeVar
 
