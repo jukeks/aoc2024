@@ -49,17 +49,19 @@ def neighbors_diagonal(matrix: Matrix, x: int, y: int) -> list[int]:
 def print_matrix(matrix: Matrix):
     for row in matrix:
         for cell in row:
-            print(cell, end="")
+            print(cell, end=" ")
         print()
 
 
-def parse_matrix(text: str, delimiter: str = " ") -> Matrix:
+def parse_matrix(text: str, delimiter: str = " ", conversion = None) -> Matrix:
+    if conversion:
+        return [[conversion(cell) for cell in row.split(delimiter)] for row in text.strip().splitlines()]
     return [[cell for cell in row.split(delimiter)] for row in text.strip().splitlines()]
 
 
-def read_matrix(filename: str, delimiter: str = " ") -> Matrix:
+def read_matrix(filename: str, delimiter: str = " ", conversion = None) -> Matrix:
     with open(filename) as f:
-        return parse_matrix(f.read(), delimiter)
+        return parse_matrix(f.read(), delimiter, conversion)
 
 
 def filter_out_empty_cells(m: Matrix) -> Matrix:
