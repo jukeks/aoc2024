@@ -54,9 +54,12 @@ def print_matrix(matrix: Matrix):
 
 
 def parse_matrix(text: str, delimiter: str = " ", conversion = None) -> Matrix:
+    splitter = lambda x: x.split(delimiter)
+    if delimiter == "" or delimiter is None:
+        splitter = lambda x: list(x)
     if conversion:
-        return [[conversion(cell) for cell in row.split(delimiter)] for row in text.strip().splitlines()]
-    return [[cell for cell in row.split(delimiter)] for row in text.strip().splitlines()]
+        return [[conversion(cell) for cell in splitter(row)] for row in text.strip().splitlines()]
+    return [[cell for cell in splitter(row)] for row in text.strip().splitlines()]
 
 
 def read_matrix(filename: str, delimiter: str = " ", conversion = None) -> Matrix:
