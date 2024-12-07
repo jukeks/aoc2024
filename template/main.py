@@ -16,6 +16,7 @@ HERE"""
 
 
 def main():
+    #test_input = read_input("aoc/CHANGE/input.txt")
     matrix = create_matrix(5, 5)
     print_matrix(matrix)
 
