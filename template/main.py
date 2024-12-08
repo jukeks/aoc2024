@@ -8,8 +8,10 @@ from aoc.lib import (
     neighbors_diagonal,
     read_input,
 )
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
+
 
 test_input = """\
 HERE"""

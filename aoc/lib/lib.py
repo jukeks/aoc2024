@@ -1,6 +1,7 @@
 from typing import Any
 
 Matrix = list[list[Any]]
+Point = tuple[int, int]
 
 
 def create_matrix(width: int, height: int, init: Any = None) -> Matrix:
@@ -46,10 +47,10 @@ def neighbors_diagonal(matrix: Matrix, x: int, y: int) -> list[int]:
     ]
 
 
-def print_matrix(matrix: Matrix):
+def print_matrix(matrix: Matrix, delimiter: str = ""):
     for row in matrix:
         for cell in row:
-            print(cell, end=" ")
+            print(cell, end=delimiter)
         print()
 
 
@@ -85,6 +86,12 @@ def to_int_matrix(m: Matrix) -> Matrix:
         new_m.append(new_row)
     return new_m
 
+def point_in_matrix(m: Matrix, p: Point) -> bool:
+    return coordinate_in_matrix(m, p[0], p[1])
+
+
+def coordinate_in_matrix(m: Matrix, x: int, y: int) -> bool:
+    return x >= 0 and y >= 0 and x < len(m[0]) and y < len(m)
 
 def read_input(filename: str):
     with open(filename) as f:
