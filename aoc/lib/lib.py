@@ -3,6 +3,9 @@ from typing import Any
 Matrix = list[list[Any]]
 Point = tuple[int, int]
 
+def matrix_get(m: Matrix, p: Point) -> Any:
+    return m[p[1]][p[0]]
+
 
 def create_matrix(width: int, height: int, init: Any = None) -> Matrix:
     return [[init for _ in range(width)] for _ in range(height)]
@@ -34,6 +37,14 @@ def neighbor_indexes_diagonal(x: int, y: int) -> list[tuple[int, int]]:
 def neighbors(matrix: Matrix, x: int, y: int) -> list[int]:
     return [
         matrix[j][i]
+        for i, j in neighbor_indexes(x, y)
+        if 0 <= j < len(matrix) and 0 <= i < len(matrix[0])
+    ]
+
+def neighbor_coordinate_pairs(matrix: Matrix, p: Point) -> list[tuple[Point, int]]:
+    x, y = p
+    return [
+        ((i, j), matrix[j][i])
         for i, j in neighbor_indexes(x, y)
         if 0 <= j < len(matrix) and 0 <= i < len(matrix[0])
     ]
