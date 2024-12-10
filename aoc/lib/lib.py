@@ -3,6 +3,7 @@ from typing import Any
 Matrix = list[list[Any]]
 Point = tuple[int, int]
 
+
 def matrix_get(m: Matrix, p: Point) -> Any:
     return m[p[1]][p[0]]
 
@@ -41,6 +42,7 @@ def neighbors(matrix: Matrix, x: int, y: int) -> list[int]:
         if 0 <= j < len(matrix) and 0 <= i < len(matrix[0])
     ]
 
+
 def neighbor_coordinate_pairs(matrix: Matrix, p: Point) -> list[tuple[Point, int]]:
     x, y = p
     return [
@@ -65,16 +67,19 @@ def print_matrix(matrix: Matrix, delimiter: str = ""):
         print()
 
 
-def parse_matrix(text: str, delimiter: str = " ", conversion = None) -> Matrix:
+def parse_matrix(text: str, delimiter: str = " ", conversion=None) -> Matrix:
     splitter = lambda x: x.split(delimiter)
     if delimiter == "" or delimiter is None:
         splitter = lambda x: list(x)
     if conversion:
-        return [[conversion(cell) for cell in splitter(row)] for row in text.strip().splitlines()]
+        return [
+            [conversion(cell) for cell in splitter(row)]
+            for row in text.strip().splitlines()
+        ]
     return [[cell for cell in splitter(row)] for row in text.strip().splitlines()]
 
 
-def read_matrix(filename: str, delimiter: str = " ", conversion = None) -> Matrix:
+def read_matrix(filename: str, delimiter: str = " ", conversion=None) -> Matrix:
     with open(filename) as f:
         return parse_matrix(f.read(), delimiter, conversion)
 
@@ -97,6 +102,7 @@ def to_int_matrix(m: Matrix) -> Matrix:
         new_m.append(new_row)
     return new_m
 
+
 def point_in_matrix(m: Matrix, p: Point) -> bool:
     return coordinate_in_matrix(m, p[0], p[1])
 
@@ -104,15 +110,18 @@ def point_in_matrix(m: Matrix, p: Point) -> bool:
 def coordinate_in_matrix(m: Matrix, x: int, y: int) -> bool:
     return x >= 0 and y >= 0 and x < len(m[0]) and y < len(m)
 
+
 def read_input(filename: str):
     with open(filename) as f:
         return f.read()
 
-def get_column(m: Matrix, i: int) -> list[any]:
+
+def get_column(m: Matrix, i: int) -> list[Any]:
     col = list()
     for r in m:
         col.append(r[i])
     return col
+
 
 from typing import TypeVar
 
