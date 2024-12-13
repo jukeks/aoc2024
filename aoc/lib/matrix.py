@@ -22,7 +22,7 @@ class Matrix(Generic[T]):
             for cell in row:
                 s += str(cell) + self.delimiter
             s += "\n"
-        return s
+        return s[:-1]  # remove last new line
     
     def __repr__(self) -> str:
         return str(self)
