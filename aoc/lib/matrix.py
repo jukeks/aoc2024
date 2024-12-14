@@ -31,8 +31,11 @@ class Matrix(Generic[T]):
     def get(self, p: Point) -> T:
         x, y = p
         return self.m[y][x]
+    
+    def get_column(self, x: int) -> list[T]:
+        return [row[x] for row in self]
 
-    def is_inside(self, p: Point) -> bool:
+    def contains_point(self, p: Point) -> bool:
         x, y = p
         return 0 <= x < len(self.m[0]) and 0 <= y < len(self.m)
 
@@ -40,14 +43,14 @@ class Matrix(Generic[T]):
         return [
             self.get(neighbor)
             for neighbor in neighbor_points(p)
-            if self.is_inside(neighbor)
+            if self.contains_point(neighbor)
         ]
 
     def neighbors_diagonal(self, p: Point) -> list[T]:
         return [
             self.get(neigbor)
             for neigbor in neighbor_points_diagonal(p)
-            if self.is_inside(neigbor)
+            if self.contains_point(neigbor)
         ]
 
     @classmethod
@@ -70,16 +73,6 @@ class Matrix(Generic[T]):
         )
 
     @classmethod
-    def from_file(
-        cls,
-        filename: str,
-        conversion: ConversionFunc,
-        delimiter: str = "",
-    ) -> "Matrix[T]":
-        with open(filename) as f:
-            return cls.parse_matrix(f.read(), conversion, delimiter)
-
-    @classmethod
     def empty_matrix(cls, width: int, height: int, init: T) -> "Matrix[T]":
         m = [[init for _ in range(width)] for _ in range(height)]
         return Matrix(m)
@@ -96,7 +89,7 @@ def neighbor_points(p: Point) -> list[Point]:
 
 
 def neighbor_points_diagonal(p: Point) -> list[Point]:
-    # all 8 neighbors, up, down, left, right and diagonals
+    # all 8 neighbors: up, down, left, right and diagonals
     x, y = p
     return [
         (x - 1, y - 1),

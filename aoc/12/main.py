@@ -46,7 +46,7 @@ def sort_crop_to_plots(
         while q:
             n = q.pop()
             for np in neighbor_points(n):
-                if not m.is_inside(np):
+                if not m.contains_point(np):
                     continue
                 if m.get(np) != crop:
                     continue
@@ -81,7 +81,7 @@ def calculate(m: Matrix, crop: str, plot: list[Point]) -> int:
     for p in plot:
         neighbors = neighbor_points(p)
         for np, dir in zip(neighbors, [Dir.RIGHT, Dir.LEFT, Dir.UP, Dir.DOWN]):
-            if not m.is_inside(np):
+            if not m.contains_point(np):
                 perimeter += 1
                 fence.add((p, dir))
                 continue

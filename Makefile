@@ -10,3 +10,6 @@ new:
 
 format:
 	@uv run ruff format aoc template
+
+test:
+	@uv run pytest

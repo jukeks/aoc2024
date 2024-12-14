@@ -9,7 +9,7 @@ def test_matrix():
     print(str(m))
 
     assert m.get((0, 0)) == 1
-    assert m.is_inside((0, 0))
+    assert m.contains_point((0, 0))
 
     m = Matrix.empty_matrix(10, 10, 0)
     m.get((0, 0))
