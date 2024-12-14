@@ -1,6 +1,8 @@
 from aoc.lib.matrix import (
     Matrix,
+    Point,
 )
+from aoc.lib import read_input
 from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
