@@ -1,5 +1,6 @@
 from aoc.lib.matrix import (
-    Matrix, Point,
+    Matrix,
+    Point,
 )
 from aoc.lib import read_input
 from collections import defaultdict
@@ -25,6 +26,7 @@ Button A: X+69, Y+23
 Button B: X+27, Y+71
 Prize: X=18641, Y=10279"""
 
+
 @dataclass
 class Machine:
     a: Point
@@ -32,13 +34,13 @@ class Machine:
     target: Point
 
     @classmethod
-    def from_txt(cls, txt: str) -> 'list[Machine]':
+    def from_txt(cls, txt: str) -> "list[Machine]":
         def split_button(s: str) -> Point:
             x, y = s.split(", ")
             x = x.replace("X", "")
             y = y.replace("Y", "")
             return int(x), int(y)
-        
+
         def split_target(s: str) -> Point:
             x, y = s.split(", ")
             x = x.replace("X=", "")
@@ -52,15 +54,9 @@ class Machine:
             _, t = batch[2].split(":")
 
             machines.append(
-                Machine(
-                    a=split_button(a),
-                    b=split_button(b),
-                    target=split_target(t)
-                )
+                Machine(a=split_button(a), b=split_button(b), target=split_target(t))
             )
         return machines
-
-    
 
     def limits(self) -> int:
         ax, ay = self.a
@@ -69,11 +65,12 @@ class Machine:
         return 100
 
         return max(
-            tx//ax,
-            ty//ay,
-            tx//bx,
-            ty//by,
+            tx // ax,
+            ty // ay,
+            tx // bx,
+            ty // by,
         )
+
 
 def minimize(m: Machine) -> int:
     limit = m.limits()
@@ -82,11 +79,10 @@ def minimize(m: Machine) -> int:
     smallest = default
     for a_count in range(limit):
         for b_count in range(limit):
+            x = a_count * m.a[0] + b_count * m.b[0]
+            y = a_count * m.a[1] + b_count * m.b[1]
 
-            x = a_count*m.a[0] + b_count*m.b[0]
-            y = a_count*m.a[1] + b_count*m.b[1]
-
-            #print("trying", a_count, b_count, x, y)
+            # print("trying", a_count, b_count, x, y)
 
             if m.target == (x, y):
                 cost = 3 * a_count + b_count
@@ -95,6 +91,7 @@ def minimize(m: Machine) -> int:
     if smallest == default:
         return None
     return smallest
+
 
 def solve(m: Machine) -> int:
     ax, ay = m.a
@@ -108,8 +105,8 @@ def solve(m: Machine) -> int:
 
     if A * ax + B * bx != X or A * ay + B * by != Y:
         return None
-    
-    return 3*A + B
+
+    return 3 * A + B
 
 
 def main():
@@ -118,9 +115,9 @@ def main():
     total = 0
     for machine in machines:
         print(machine)
-        #cost1 = minimize(machine)
+        # cost1 = minimize(machine)
         cost2 = solve(machine)
-        #print(cost1, cost2)
+        # print(cost1, cost2)
         if cost2:
             total += cost2
     print(total)

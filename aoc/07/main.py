@@ -23,10 +23,12 @@ test_input = """\
 21037: 9 7 18 13
 292: 11 6 16 20"""
 
+
 class Operator(Enum):
     ADD = "+"
     MULTIPLY = "*"
     CONCAT = "||"
+
 
 @dataclass
 class Equation:
@@ -35,7 +37,10 @@ class Equation:
 
     def solve(self) -> int:
         solutions = 0
-        for p in itertools.product([Operator.ADD, Operator.MULTIPLY, Operator.CONCAT], repeat=len(self.operands)-1):
+        for p in itertools.product(
+            [Operator.ADD, Operator.MULTIPLY, Operator.CONCAT],
+            repeat=len(self.operands) - 1,
+        ):
             operands = self.operands.copy()
             acc = operands.pop(0)
             for operator in p:
@@ -64,6 +69,7 @@ def main():
             total += eq.result
     print(total)
 
+
 def parse(text: str) -> list[Equation]:
     eqs = []
     for row in text.splitlines():
@@ -72,6 +78,7 @@ def parse(text: str) -> list[Equation]:
         eqs.append(Equation(int(result), [int(o) for o in operands]))
 
     return eqs
+
 
 if __name__ == "__main__":
     main()

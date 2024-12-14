@@ -18,12 +18,12 @@ test_input = """\
 8 6 4 4 1
 1 3 6 7 9"""
 
+
 def row_is_safe(row: list[int]) -> bool:
     increasing = all_increasing(row)
     decreasing = all_decreasing(row)
     if not increasing and not decreasing:
         return False
-
 
     last = row[0]
     for cell in row[1:]:
@@ -35,6 +35,7 @@ def row_is_safe(row: list[int]) -> bool:
         last = cell
     return True
 
+
 def all_increasing(row: list[int]) -> bool:
     last = row[0]
     for cell in row[1:]:
@@ -42,6 +43,7 @@ def all_increasing(row: list[int]) -> bool:
             return False
         last = cell
     return True
+
 
 def all_decreasing(row: list[int]) -> bool:
     last = row[0]
@@ -51,15 +53,16 @@ def all_decreasing(row: list[int]) -> bool:
         last = cell
     return True
 
+
 def dampen(row: list[int]):
     if row_is_safe(row):
         return True
 
     for i in range(len(row)):
-        dampened_row = row[:i] + row[i+1:]
+        dampened_row = row[:i] + row[i + 1 :]
         if row_is_safe(dampened_row):
             return True
-    
+
     return False
 
 
@@ -68,7 +71,6 @@ def main():
     matrix = read_matrix("./aoc/02/input.txt", " ", conversion=int)
 
     print_matrix(matrix)
-
 
     safe = 0
     for i, row in enumerate(matrix):

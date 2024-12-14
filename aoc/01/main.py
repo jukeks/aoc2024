@@ -26,8 +26,8 @@ test_input = to_int_matrix(
 )
 
 real_input = to_int_matrix(
-    filter_out_empty_cells(
-        read_matrix("./aoc/01/1.input", "   ")))
+    filter_out_empty_cells(read_matrix("./aoc/01/1.input", "   "))
+)
 
 
 def main():

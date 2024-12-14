@@ -71,17 +71,19 @@ test_input = """\
 
 Path = list[Point]
 
+
 @dataclass
 class Node:
     point: Point
     value: int
-    neighbors: list['Node'] = field(default_factory=list)
+    neighbors: list["Node"] = field(default_factory=list)
 
     def __repr__(self):
         return f"{self.value}"
 
 
 Map = list[list[Node]]
+
 
 def parse_nodes(m: Map) -> Map:
     graph: list[list[Node]] = [[None for cell in row] for row in m]
@@ -101,7 +103,7 @@ def parse_nodes(m: Map) -> Map:
                     continue
                 if neighbor.value - node.value == 1:
                     node.neighbors.append(neighbor)
-    
+
     return graph
 
 
@@ -113,6 +115,7 @@ def trailheads(m: Map) -> list[Node]:
                 points.append(node)
 
     return points
+
 
 def bfs(trailhead: Node) -> int:
     q = [trailhead]
@@ -133,8 +136,10 @@ def bfs(trailhead: Node) -> int:
 
     return nines
 
+
 def find(trailhead: Node) -> list[Path]:
     return find_all_paths([], [], trailhead)
+
 
 def find_all_paths(paths: list[Path], path: Path, n: Node) -> list[Path]:
     path = path + [n]
@@ -163,7 +168,7 @@ def main():
     m = parse_matrix(test_input, delimiter="")
     graph = parse_nodes(m)
     print_matrix(graph)
-    
+
     total = 0
     for head in trailheads(graph):
         total += len(find(head))

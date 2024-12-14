@@ -33,7 +33,9 @@ def collect(m: Matrix) -> dict[str, list[Point]]:
     return c
 
 
-def sort_crop_to_plots(m: Matrix[str], crop: str, points: list[Point]) -> list[list[Point]]:
+def sort_crop_to_plots(
+    m: Matrix[str], crop: str, points: list[Point]
+) -> list[list[Point]]:
     pointSet = set(points)
     plots = []
 
@@ -52,12 +54,13 @@ def sort_crop_to_plots(m: Matrix[str], crop: str, points: list[Point]) -> list[l
                 if np not in visited:
                     visited.add(np)
                     q.append(np)
-        
+
         for p in visited:
             pointSet.discard(p)
         plots.append(list(visited))
 
     return plots
+
 
 class Dir(Enum):
     UP = 1
@@ -88,12 +91,12 @@ def calculate(m: Matrix, crop: str, plot: list[Point]) -> int:
                 fence.add((p, dir))
                 continue
 
-
     sides = sort_fence_to_sides(fence)
 
     print(crop, area, perimeter, len(fence), len(sides))
 
     return area * len(sides)
+
 
 def sort_fence_to_sides(fence: set[Point]) -> list[list[Point]]:
     fencePoints = set(fence)
@@ -106,14 +109,14 @@ def sort_fence_to_sides(fence: set[Point]) -> list[list[Point]]:
         q = [root]
         while q:
             (x, y), dir = q.pop()
-            
+
             neigbor_point_candidates = []
             if dir in [Dir.UP, Dir.DOWN]:
                 # horizontal
-                neigbor_point_candidates = [((x-1, y), dir), ((x+1, y), dir)]
+                neigbor_point_candidates = [((x - 1, y), dir), ((x + 1, y), dir)]
             else:
                 # vertical
-                neigbor_point_candidates = [((x, y-1), dir), ((x, y+1), dir)]
+                neigbor_point_candidates = [((x, y - 1), dir), ((x, y + 1), dir)]
 
             for np in neigbor_point_candidates:
                 if np not in fence:
@@ -122,12 +125,13 @@ def sort_fence_to_sides(fence: set[Point]) -> list[list[Point]]:
                 if np not in visited:
                     visited.add(np)
                     q.append(np)
-        
+
         for p in visited:
             fencePoints.discard(p)
         sides.append(list(visited))
 
     return sides
+
 
 def main():
     test_input = read_input("aoc/12/input.txt")
@@ -141,7 +145,6 @@ def main():
             total += t
 
     print(total)
-
 
 
 if __name__ == "__main__":

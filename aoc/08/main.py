@@ -8,12 +8,13 @@ from aoc.lib import (
     neighbors_diagonal,
     read_input,
     point_in_matrix,
-    coordinate_in_matrix
+    coordinate_in_matrix,
 )
 from dataclasses import dataclass, field
 from enum import Enum
 from collections import defaultdict
 from itertools import permutations
+
 Point = tuple[int, int]
 
 test_input = """\
@@ -34,10 +35,11 @@ test_input = """\
 def point_from(a: Point, b: Point) -> Point:
     ax, ay = a
     bx, by = b
-    dx = ax-bx
-    dy = ay-by
+    dx = ax - bx
+    dy = ay - by
 
-    return ax+dx, ay+dy
+    return ax + dx, ay + dy
+
 
 def main():
     test_input = read_input("aoc/08/input.txt")
@@ -49,7 +51,7 @@ def main():
             if cell == ".":
                 continue
             antennas[cell].append((i, j))
-    
+
     antinodes = set()
     for freq, locations in antennas.items():
         for a, b in permutations(locations, 2):
@@ -65,12 +67,11 @@ def main():
                         continue
                     if matrix[y][x] in ("#", "."):
                         matrix[y][x] = "#"
-                    antinodes.add((x,y))
-                    points.add((x,y))
+                    antinodes.add((x, y))
+                    points.add((x, y))
 
     print_matrix(matrix)
     print(len(antinodes))
-
 
 
 if __name__ == "__main__":

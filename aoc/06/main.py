@@ -27,6 +27,7 @@ GUARD = "^"
 OBSTRUCTION = "#"
 EMPTY = "."
 
+
 class Direction(Enum):
     UP = 0
     RIGHT = 1
@@ -42,7 +43,7 @@ class Direction(Enum):
             return "v"
         if self == Direction.LEFT:
             return "<"
-        
+
     def __str__(self):
         if self == Direction.UP:
             return "^"
@@ -54,11 +55,10 @@ class Direction(Enum):
             return "<"
 
 
-
-
 @dataclass
 class Map:
     matrix: Matrix
+
 
 @dataclass
 class Guard:
@@ -87,7 +87,7 @@ class Guard:
         return (self.x, self.y, self.facing) in self.visited
 
     def out_of_bounds(self, x: int, y: int, m: Map) -> bool:
-        return x < 0 or y < 0 or y > len(m.matrix) - 1  or x > len(m.matrix[0]) - 1
+        return x < 0 or y < 0 or y > len(m.matrix) - 1 or x > len(m.matrix[0]) - 1
 
     def next_coordinate(self) -> tuple[int, int]:
         d = self.facing
@@ -95,18 +95,18 @@ class Guard:
         y = self.y
         match d:
             case Direction.UP:
-                return (x, y-1)
+                return (x, y - 1)
             case Direction.RIGHT:
-                return (x+1, y)
+                return (x + 1, y)
             case Direction.DOWN:
-                return (x, y+1)
+                return (x, y + 1)
             case Direction.LEFT:
-                return (x-1, y)
+                return (x - 1, y)
 
     def is_obstacle(self, m: Map) -> bool:
         x, y = self.next_coordinate()
         return m.matrix[y][x] in (OBSTRUCTION, "O")
-            
+
     def about_to_leave(self, m: Map) -> bool:
         x, y = self.next_coordinate()
         return self.out_of_bounds(x, y, m)
@@ -121,6 +121,7 @@ def parse(text: str) -> tuple[Guard, Map]:
                 m = parse_matrix(text, "", lambda x: x if x != "^" else ".")
                 return g, Map(m)
 
+
 def print_state(g: Guard, m: Map) -> None:
     for j, row in enumerate(m.matrix):
         for i, cell in enumerate(row):
@@ -129,6 +130,7 @@ def print_state(g: Guard, m: Map) -> None:
             print(cell, end="")
         print()
 
+
 def print_visited(g: Guard, m: Map) -> None:
     for j, row in enumerate(m.matrix):
         for i, cell in enumerate(row):
@@ -136,6 +138,7 @@ def print_visited(g: Guard, m: Map) -> None:
                 cell = "X"
             print(cell, end="")
         print()
+
 
 def main():
     test_input = read_input("aoc/06/input.txt")
@@ -149,7 +152,7 @@ def main():
         if hit_wall:
             print("hit wall")
             print_state(g, m)
-    
+
     print("left area")
     print()
     print_visited(g, m)
@@ -160,7 +163,7 @@ def main():
     loops = 0
     for i, j in g.history:
         cell = template.matrix[j][i]
-        if cell == OBSTRUCTION or (i,j) == (start_x, start_y):
+        if cell == OBSTRUCTION or (i, j) == (start_x, start_y):
             continue
         g, m = parse(test_input)
         m.matrix[j][i] = "O"

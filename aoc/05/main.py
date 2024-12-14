@@ -41,22 +41,27 @@ test_input = """\
 61,13,29
 97,13,75,29,47"""
 
+
 @dataclass
 class Rule:
     a: int
     b: int
 
+
 def parse_rule(row: str) -> Rule:
     a, b = row.split("|")
     return Rule(int(a), int(b))
+
 
 @dataclass
 class Update:
     pages: list[int]
 
+
 def parse_update(row: str) -> Update:
     pages = row.split(",")
     return Update([int(p) for p in pages])
+
 
 def parse(text: str) -> tuple[list[Rule], list[Update]]:
     updates = []
@@ -75,6 +80,7 @@ def parse(text: str) -> tuple[list[Rule], list[Update]]:
 
     return rules, updates
 
+
 @dataclass
 class Rulebook:
     rules: list[Rule]
@@ -83,13 +89,13 @@ class Rulebook:
 
     def is_before(self, a: int, b: int) -> bool:
         return b in self.is_before_mapper[a]
-    
-    def is_after(self, a: int, b:int) -> bool:
+
+    def is_after(self, a: int, b: int) -> bool:
         return a in self.is_before_mapper[b]
-    
+
     def find_first(self, update: list[int]) -> tuple[int, list[int]]:
         for i in range(len(update)):
-            rotated = [update[i]] + update[:i] + update[i+1:]
+            rotated = [update[i]] + update[:i] + update[i + 1 :]
 
             ok = True
             for after_page in rotated[1:]:
@@ -99,25 +105,27 @@ class Rulebook:
 
             if ok:
                 return rotated[0], rotated[1:]
-            
+
         raise RuntimeError("wtf")
 
     @classmethod
-    def from_rules(cls, rules: list[Rule]) -> 'Rulebook':
+    def from_rules(cls, rules: list[Rule]) -> "Rulebook":
         is_before_mapper = defaultdict(set)
         is_after_mapper = defaultdict(set)
         for rule in rules:
             is_before_mapper[rule.a].add(rule.b)
             is_after_mapper[rule.b].add(rule.a)
 
-        return Rulebook(rules=rules, 
-                        is_before_mapper=is_before_mapper, 
-                        is_after_mapper=is_after_mapper)
+        return Rulebook(
+            rules=rules,
+            is_before_mapper=is_before_mapper,
+            is_after_mapper=is_after_mapper,
+        )
 
 
 def update_is_correct(update: list[int], rulebook: Rulebook) -> bool:
     for i, page in enumerate(update):
-        for after_page in update[i+1:]:
+        for after_page in update[i + 1 :]:
             if not rulebook.is_before(page, after_page):
                 print("here1")
                 return False
@@ -125,8 +133,9 @@ def update_is_correct(update: list[int], rulebook: Rulebook) -> bool:
             if not rulebook.is_after(page, before_page):
                 print("here2")
                 return False
-            
+
     return True
+
 
 def correct(update: Update, rulebook: Rulebook) -> Update:
     new = []
@@ -148,14 +157,14 @@ def main():
     for update in updates:
         if update_is_correct(update.pages, rulebook):
             print(update, "is correct")
-            middle = update.pages[len(update.pages)//2]
+            middle = update.pages[len(update.pages) // 2]
             print("middle is", middle)
             total += middle
         else:
             print(update, "was incorrect")
             corrected = correct(update, rulebook)
             print(correct, "is now corrected")
-            middle = corrected.pages[len(corrected.pages)//2]
+            middle = corrected.pages[len(corrected.pages) // 2]
             print("middle is", middle)
             corrected_total += middle
     print("total", total)

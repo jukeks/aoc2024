@@ -24,7 +24,7 @@ class Matrix(Generic[T]):
                 s += str(cell) + self.delimiter
             s += "\n"
         return s[:-1]  # remove last new line
-    
+
     def __repr__(self) -> str:
         return str(self)
 
@@ -66,7 +66,7 @@ class Matrix(Generic[T]):
                 [conversion(cell) for cell in splitter(row)]
                 for row in text.strip().splitlines()
             ],
-            delimiter=delimiter
+            delimiter=delimiter,
         )
 
     @classmethod
@@ -108,6 +108,7 @@ def neighbor_points_diagonal(p: Point) -> list[Point]:
         (x + 0, y + 1),
         (x + 1, y + 1),
     ]
+
 
 @dataclass
 class Limits:

@@ -20,6 +20,7 @@ SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX"""
 
+
 def candidate_indexes(x: int, y: int) -> list[list[tuple[int, int]]]:
     horizontal = [(x + i, y) for i in range(4)]
     vertical = [(x, y + j) for j in range(4)]
@@ -37,6 +38,7 @@ def candidate_indexes(x: int, y: int) -> list[list[tuple[int, int]]]:
         list(reversed(other_diagonal)),
     ]
 
+
 def candidate_indexes2(x: int, y: int) -> list[list[tuple[int, int]]]:
     diagonal = [(x - 1 + i, y - 1 + i) for i in range(3)]
     other_diagonal = [(x + 1 - i, y - 1 + i) for i in range(3)]
@@ -45,12 +47,13 @@ def candidate_indexes2(x: int, y: int) -> list[list[tuple[int, int]]]:
         other_diagonal,
     ]
 
+
 def candidates(m: Matrix, x: int, y: int) -> list[list[tuple]]:
     results = []
     cs = candidate_indexes(x, y)
     for candidate in cs:
         ok = True
-        for (i, j) in candidate:
+        for i, j in candidate:
             if i < 0 or j < 0 or i >= len(m[0]) or j >= len(m):
                 ok = False
                 break
@@ -62,6 +65,7 @@ def candidates(m: Matrix, x: int, y: int) -> list[list[tuple]]:
             results.append(tuple(candidate))
     return results
 
+
 def is_xmas(m: Matrix, x: int, y: int) -> bool:
     ok = ["MAS", "SAM"]
     diagonal_indexes, other_diagonal_indexes = candidate_indexes2(x, y)
@@ -69,6 +73,7 @@ def is_xmas(m: Matrix, x: int, y: int) -> bool:
     diagonal = "".join([m[j][i] for (i, j) in diagonal_indexes])
     other_diagonal = "".join([m[j][i] for (i, j) in other_diagonal_indexes])
     return diagonal in ok and other_diagonal in ok
+
 
 def main():
     matrix = parse_matrix(test_input, "")
@@ -93,7 +98,7 @@ def main():
     for y in range(1, len(matrix) - 1):
         for x in range(1, len(matrix[0]) - 1):
             if is_xmas(matrix, x, y):
-                xmasses +=1
+                xmasses += 1
 
     print("results:", len(results))
     print("xmasses:", xmasses)

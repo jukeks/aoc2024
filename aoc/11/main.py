@@ -23,7 +23,7 @@ def step(stone: int, occurances: int, stones: dict[int, int]) -> None:
         stones[b] += occurances
         return
 
-    stones[stone*2024] += occurances
+    stones[stone * 2024] += occurances
 
 
 def print_stones(stones: list[int]) -> None:
@@ -45,6 +45,7 @@ def main():
         for _stone, occurances in new.items():
             total += occurances
         print("round", i, total, len(new))
+
 
 if __name__ == "__main__":
     main()

@@ -30,7 +30,7 @@ class Robot:
     v: Point
 
     @classmethod
-    def from_text(cls, txt: str) -> list['Robot']:
+    def from_text(cls, txt: str) -> list["Robot"]:
         robots = []
         for line in txt.splitlines():
             p_raw, v_raw = line.split(" ")
@@ -43,8 +43,8 @@ class Robot:
                 )
             )
         return robots
-    
-    def step(self, size: Point, count: int = 1) -> 'None':
+
+    def step(self, size: Point, count: int = 1) -> "None":
         px, py = self.p
         vx, vy = self.v
         w, h = size
@@ -53,6 +53,7 @@ class Robot:
         py = (py + vy * count) % h
 
         self.p = (px, py)
+
 
 def str_map(robots: list[Robot], size: Point):
     w, h = size
@@ -66,6 +67,7 @@ def str_map(robots: list[Robot], size: Point):
         s += "\n"
     return s[:-1]
 
+
 def print_map(i: int, robots: list[Robot], size: Point):
     print("iteration:", i)
     print(str_map(robots, size))
@@ -78,7 +80,6 @@ def safety_factor(robots: list[Robot], size: Point) -> int:
     vertical_cutoff = w // 2
 
     quadrants = defaultdict(int)
-
 
     for r in robots:
         x = -1
@@ -100,6 +101,7 @@ def safety_factor(robots: list[Robot], size: Point) -> int:
     for q in quadrants.values():
         acc *= q
     return acc
+
 
 def horizontal_score(robots: list[Robot], size: Point) -> int:
     middle = size[0] / 2
