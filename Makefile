@@ -5,7 +5,8 @@ run:
 	@uv run python -m aoc.$(day).main
 
 new:
-	@cp -r ./template ./aoc/$(day)
+	mkdir ./aoc/$(day)
+	@cp -n ./template/* ./aoc/$(day)/
 
 format:
 	@uv run ruff format aoc template
