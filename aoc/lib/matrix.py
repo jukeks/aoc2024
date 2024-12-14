@@ -1,4 +1,5 @@
 from typing import TypeVar, Generic, Generator, Callable
+from dataclasses import dataclass
 
 Point = tuple[int, int]
 
@@ -107,3 +108,12 @@ def neighbor_points_diagonal(p: Point) -> list[Point]:
         (x + 0, y + 1),
         (x + 1, y + 1),
     ]
+
+@dataclass
+class Limits:
+    min: Point
+    max: Point
+
+    def inside(self, p: Point) -> bool:
+        x, y = p
+        return self.min[0] <= x < self.max[0] and self.min[1] <= y < self.max[1]
