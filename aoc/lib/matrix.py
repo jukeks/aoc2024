@@ -31,9 +31,33 @@ class Matrix(Generic[T]):
     def get(self, p: Point) -> T:
         x, y = p
         return self.m[y][x]
-    
+
+    def copy(self) -> "Matrix[T]":
+        return Matrix(
+            [row.copy() for row in self],
+            delimiter=self.delimiter,
+        )
+
+    def set(self, p: Point, val: T) -> None:
+        x, y = p
+        self.m[y][x] = val
+
+    def size(self) -> Point:
+        return len(self.m[0]), len(self.m)
+
     def get_column(self, x: int) -> list[T]:
         return [row[x] for row in self]
+
+    def iterate(self) -> Generator[tuple[Point, T]]:
+        for y, row in enumerate(self):
+            for x, cell in enumerate(row):
+                yield (x, y), cell
+
+    def find(self, val: T) -> Point | None:
+        for p, t in self.iterate():
+            if t == val:
+                return p
+        return None
 
     def contains_point(self, p: Point) -> bool:
         x, y = p
